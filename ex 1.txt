@@ -1,0 +1,45 @@
+11
+LB
+DG
+LB
+DB
+
+M
+DG
+R
+DB
+
+DB 2
+M
+G
+
+LG
+O
+P
+R
+
+R
+P
+LG
+G
+
+DG
+LG 2
+O
+
+R
+M
+G
+DG
+
+O
+P
+G
+M
+
+P
+LB 2
+O
+
+
+
