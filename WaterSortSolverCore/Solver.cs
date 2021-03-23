@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace WaterSortSolverCore
 {
@@ -7,11 +6,13 @@ namespace WaterSortSolverCore
 	{
 		public static void Solve(Board initialBoard)
 		{
-			Stack<GameState> stack = new Stack<GameState>();
+			int movesCap = int.MaxValue;
+			StackedList<GameState> stack = new StackedList<GameState>();
 			stack.Push(new GameState(initialBoard));
 
-			int bestMoves = int.MaxValue;
 			UInt64 iterationCount = 0;
+		
+		StartOfStateProcessing:
 			while (stack.Count > 0)
 			{
 				GameState state = stack.Pop();
@@ -34,14 +35,16 @@ namespace WaterSortSolverCore
 
 							if (newState.Board.IsWin)
 							{
-								if (newState.nMoves < bestMoves)
-								{
-									bestMoves = newState.nMoves;
-									Console.WriteLine($"Found new best solution ({newState.nMoves} moves):");
-									Console.WriteLine(newState.GameLog);
-								}
+								Console.WriteLine($"Found solution ({newState.nMoves} moves):");
+								Console.WriteLine(newState.GameLog);
+
+								movesCap = newState.nMoves - 1;
+								Console.WriteLine($"Attempting to find solution with {movesCap} moves..\n");
+
+								stack.RemoveAll(item => item.nMoves >= movesCap - 1);
+								goto StartOfStateProcessing;
 							}
-							else
+							else if (newState.nMoves < movesCap)
 							{
 								stack.Push(newState);
 							}
