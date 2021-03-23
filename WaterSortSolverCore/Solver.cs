@@ -36,9 +36,9 @@ namespace WaterSortSolverCore
 
 					stack.RemoveAll(item => item.nMoves >= movesCap - 1);
 				}
-				else
+				else if (result.NewGameStates.Count != 0 && result.NewGameStates[0].nMoves < movesCap)
 				{
-					stack.AddRange(result.NewGameStates.Where(state => state.nMoves < movesCap));
+					stack.AddRange(result.NewGameStates);
 				}
 
 				StartTasks();
