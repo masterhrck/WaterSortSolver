@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WaterSortSolverCore
 {
@@ -6,52 +9,85 @@ namespace WaterSortSolverCore
 	{
 		public static void Solve(Board initialBoard)
 		{
+			const int maxTasks = 5;
+
 			int movesCap = int.MaxValue;
 			StackedList<GameState> stack = new StackedList<GameState>();
 			stack.Push(new GameState(initialBoard));
 
-			UInt64 iterationCount = 0;
-		
-		StartOfStateProcessing:
-			while (stack.Count > 0)
+			List<Task<ResultPacket>> tasks = new();
+
+			StartTasks();
+
+			while (tasks.Count > 0)
 			{
-				GameState state = stack.Pop();
+				int index = Task.WaitAny(tasks.ToArray());
 
-				//Find new moves
-				for (int sourceVialIndex = 0; sourceVialIndex < state.Board.Count; sourceVialIndex++)
+				ResultPacket result = tasks[index].Result;
+				tasks.RemoveAt(index);
+
+				if (result.IsWin && result.WinGameState.nMoves <= movesCap)
 				{
-					for (int destVialIndex = 0; destVialIndex < state.Board.Count; destVialIndex++)
+					Console.WriteLine($"Found solution ({result.WinGameState.nMoves} moves):");
+					Console.WriteLine(result.WinGameState.GameLog);
+
+					movesCap = result.WinGameState.nMoves - 1;
+					Console.WriteLine($"Attempting to find solution with {movesCap} moves..\n");
+
+					stack.RemoveAll(item => item.nMoves >= movesCap - 1);
+				}
+				else
+				{
+					stack.AddRange(result.NewGameStates.Where(state => state.nMoves < movesCap));
+				}
+
+				StartTasks();
+			}
+
+			void StartTasks()
+			{
+				int tasksToRun = Math.Min(maxTasks - tasks.Count, stack.Count);
+				for (int i = 0; i < tasksToRun; i++)
+				{
+					GameState state = stack.Pop();
+					Task<ResultPacket> task = Task.Run(() => ProcessGameState(state));
+					tasks.Add(task);
+				}
+			}
+		}
+
+		private static ResultPacket ProcessGameState(GameState state)
+		{
+			ResultPacket resultPacket = new();
+			//Find new moves
+			for (int sourceVialIndex = 0; sourceVialIndex < state.Board.Count; sourceVialIndex++)
+			{
+				for (int destVialIndex = 0; destVialIndex < state.Board.Count; destVialIndex++)
+				{
+					if (sourceVialIndex == destVialIndex)
+						continue;
+
+					if (IsMoveValid(sourceVialIndex, destVialIndex, state.Board))
 					{
-						if (sourceVialIndex == destVialIndex)
-							continue;
+						Board newBoard = PerformMove(sourceVialIndex, destVialIndex, state.Board);
+						string newGameLog = state.GameLog + (sourceVialIndex + 1) + " -> " + (destVialIndex + 1) + "\n";
+						GameState newState = new(newBoard, newGameLog, state.nMoves + 1);
 
-						iterationCount++;
-
-						if (IsMoveValid(sourceVialIndex, destVialIndex, state.Board))
+						if (newState.Board.IsWin)
 						{
-							Board newBoard = PerformMove(sourceVialIndex, destVialIndex, state.Board);
-							string newGameLog = state.GameLog + (sourceVialIndex + 1) + " -> " + (destVialIndex + 1) + " (" + iterationCount + ")" + "\n";
-							GameState newState = new GameState(newBoard, newGameLog, state.nMoves + 1);
-
-							if (newState.Board.IsWin)
-							{
-								Console.WriteLine($"Found solution ({newState.nMoves} moves):");
-								Console.WriteLine(newState.GameLog);
-
-								movesCap = newState.nMoves - 1;
-								Console.WriteLine($"Attempting to find solution with {movesCap} moves..\n");
-
-								stack.RemoveAll(item => item.nMoves >= movesCap - 1);
-								goto StartOfStateProcessing;
-							}
-							else if (newState.nMoves < movesCap)
-							{
-								stack.Push(newState);
-							}
+							resultPacket.IsWin = true;
+							resultPacket.WinGameState = newState;
+							return resultPacket;
+						}
+						else
+						{
+							resultPacket.NewGameStates.Add(newState);
 						}
 					}
 				}
 			}
+
+			return resultPacket;
 		}
 
 		private static bool IsMoveValid(int sourceVialIndex, int destVialIndex, Board board)
