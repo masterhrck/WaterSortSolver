@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 using WaterSortSolverCore;
 
 namespace WaterSortSolver_Console
@@ -19,13 +15,13 @@ namespace WaterSortSolver_Console
 
 			Console.WriteLine("Enter colors of liquids and quantity if != 1, top to bottom");
 
-			for(int iVial = 0; iVial < nVials; iVial++)
+			for (int iVial = 0; iVial < nVials; iVial++)
 			{
 				Vial vial = new Vial();
 
 				Console.WriteLine("Vial #" + (iVial + 1));
 				List<string> inputList = new List<string>();
-				while(true)
+				while (true)
 				{
 					string input = Console.ReadLine();
 					if (string.IsNullOrWhiteSpace(input))
@@ -33,8 +29,8 @@ namespace WaterSortSolver_Console
 					else
 						inputList.Add(input);
 				}
-				
-				for(int i = inputList.Count - 1; i >= 0; i--)
+
+				for (int i = inputList.Count - 1; i >= 0; i--)
 				{
 					Liquid liquid = new Liquid();
 
@@ -49,11 +45,7 @@ namespace WaterSortSolver_Console
 				board.Add(vial);
 			}
 
-			string result = "";
-
 			Solver.Solve(board);
-
-			Console.WriteLine(result);
 
 			Console.WriteLine("Press any key to exit..");
 			Console.ReadKey();

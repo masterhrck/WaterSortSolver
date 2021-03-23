@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace WaterSortSolverCore
+﻿namespace WaterSortSolverCore
 {
 	class GameState
 	{
 		public Board Board;
 		public string GameLog = "";
 		public int nMoves = 0;
-		
+
 		public GameState(Board board)
 		{
 			Board = board;

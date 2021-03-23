@@ -10,7 +10,7 @@ namespace WaterSortSolverCore
 			get
 			{
 				int amount = 0;
-				for(int i = 0; i < this.Count; i++)
+				for (int i = 0; i < this.Count; i++)
 				{
 					amount += this[i].Quantity;
 				}
@@ -30,7 +30,7 @@ namespace WaterSortSolverCore
 		{
 			get
 			{
-				if(this.IsEmpty)
+				if (this.IsEmpty)
 					throw new InvalidOperationException();
 
 				return this[this.Count - 1];
