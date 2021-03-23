@@ -22,7 +22,7 @@ namespace WaterSortSolverCore
 		{
 			get
 			{
-				return this.Count == 0;
+				return Count == 0;
 			}
 		}
 
@@ -33,7 +33,7 @@ namespace WaterSortSolverCore
 				if (this.IsEmpty)
 					throw new InvalidOperationException();
 
-				return this[this.Count - 1];
+				return this[Count - 1];
 			}
 		}
 	}

@@ -4,7 +4,7 @@ namespace WaterSortSolverCore
 {
 	class ResultPacket
 	{
-		public List<GameState> NewGameStates = new List<GameState>();
+		public List<GameState> NewGameStates = new();
 		public GameState WinGameState;
 		public bool IsWin = false;
 	}

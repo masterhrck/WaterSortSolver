@@ -12,7 +12,7 @@ namespace WaterSortSolverCore
 			const int maxTasks = 5;
 
 			int movesCap = int.MaxValue;
-			StackedList<GameState> stack = new StackedList<GameState>();
+			StackedList<GameState> stack = new();
 			stack.Push(new GameState(initialBoard));
 
 			List<Task<ResultPacket>> tasks = new();
@@ -112,7 +112,7 @@ namespace WaterSortSolverCore
 
 		private static Board PerformMove(int sourceVialIndex, int destVialIndex, Board board)
 		{
-			Board newBoard = new Board(board);
+			Board newBoard = new(board);
 
 			//Add liquid to destination
 			if (board[destVialIndex].IsEmpty)

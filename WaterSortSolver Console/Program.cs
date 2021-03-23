@@ -8,7 +8,7 @@ namespace WaterSortSolver_Console
 	{
 		static void Main(string[] args)
 		{
-			Board board = new Board();
+			Board board = new();
 
 			Console.Write("Number of vials: ");
 			int nVials = int.Parse(Console.ReadLine());
@@ -17,10 +17,10 @@ namespace WaterSortSolver_Console
 
 			for (int iVial = 0; iVial < nVials; iVial++)
 			{
-				Vial vial = new Vial();
+				Vial vial = new();
 
 				Console.WriteLine("Vial #" + (iVial + 1));
-				List<string> inputList = new List<string>();
+				List<string> inputList = new();
 				while (true)
 				{
 					string input = Console.ReadLine();
@@ -32,7 +32,7 @@ namespace WaterSortSolver_Console
 
 				for (int i = inputList.Count - 1; i >= 0; i--)
 				{
-					Liquid liquid = new Liquid();
+					Liquid liquid = new();
 
 					var rawValues = inputList[i].Split(' ');
 

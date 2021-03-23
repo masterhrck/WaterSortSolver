@@ -13,11 +13,11 @@ namespace WaterSortSolverCore
 		{
 			for (int iVial = 0; iVial < board.Count; iVial++)
 			{
-				Vial newVial = new Vial();
+				Vial newVial = new();
 
 				for (int iLiquid = 0; iLiquid < board[iVial].Count; iLiquid++)
 				{
-					Liquid newLiquid = new Liquid
+					Liquid newLiquid = new()
 					{
 						Color = board[iVial][iLiquid].Color,
 						Quantity = board[iVial][iLiquid].Quantity
