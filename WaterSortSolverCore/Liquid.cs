@@ -2,15 +2,15 @@
 {
 	public class Liquid
 	{
-		public string Color = "";
-		public int Quantity = 0;
+		public byte Color;
+		public byte Quantity = 0;
 
 		public Liquid()
 		{
 
 		}
 
-		public Liquid(string color, int quantity)
+		public Liquid(byte color, byte quantity)
 		{
 			Color = color;
 			Quantity = quantity;

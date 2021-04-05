@@ -6,12 +6,13 @@ namespace WaterSortSolver_Console
 {
 	class Program
 	{
-		static void Main(string[] args)
+		static void Main()
 		{
 			Board board = new();
 
 			Console.Write("Number of vials: ");
 			int nVials = int.Parse(Console.ReadLine());
+			List<string> colorList = new();
 
 			Console.WriteLine("Enter colors of liquids and quantity if != 1, top to bottom");
 
@@ -35,9 +36,13 @@ namespace WaterSortSolver_Console
 					Liquid liquid = new();
 
 					var rawValues = inputList[i].Split(' ');
+					string color = rawValues[0];
 
-					liquid.Color = rawValues[0];
-					liquid.Quantity = rawValues.Length > 1 ? int.Parse(rawValues[1]) : 1;
+					if (!colorList.Contains(color))
+						colorList.Add(color);
+
+					liquid.Color = (byte)colorList.IndexOf(color);
+					liquid.Quantity = rawValues.Length > 1 ? byte.Parse(rawValues[1]) : (byte)1;
 
 					vial.Add(liquid);
 				}

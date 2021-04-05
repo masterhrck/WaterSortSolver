@@ -5,11 +5,11 @@ namespace WaterSortSolverCore
 {
 	public class Vial : List<Liquid>
 	{
-		public int TotalQuantity
+		public byte TotalQuantity
 		{
 			get
 			{
-				int amount = 0;
+				byte amount = 0;
 				for (int i = 0; i < this.Count; i++)
 				{
 					amount += this[i].Quantity;
