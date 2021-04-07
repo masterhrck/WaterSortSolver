@@ -5,6 +5,19 @@ namespace WaterSortSolverCore
 {
 	public class Vial : List<Liquid>
 	{
+		public Vial() : base()
+		{
+
+		}
+
+		public Vial(Vial vial) : base()
+		{
+			foreach (var liquid in vial)
+			{
+				Add(new Liquid(liquid.Color, liquid.Quantity));
+			}
+		}
+
 		public byte TotalQuantity
 		{
 			get

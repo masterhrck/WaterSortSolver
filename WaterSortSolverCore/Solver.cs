@@ -111,9 +111,13 @@ namespace WaterSortSolverCore
 
 		private static Board PerformMove(int sourceVialIndex, int destVialIndex, Board board)
 		{
-			Board newBoard = new(board);
-			Vial sourceVial = newBoard[sourceVialIndex];
-			Vial destVial = newBoard[destVialIndex];
+			Board newBoard = board.ShallowCopy();
+
+			Vial sourceVial = new Vial(newBoard[sourceVialIndex]);
+			newBoard[sourceVialIndex] = sourceVial;
+
+			Vial destVial = new Vial(newBoard[destVialIndex]);
+			newBoard[destVialIndex] = destVial;
 
 			if (destVial.IsEmpty)
 			{
