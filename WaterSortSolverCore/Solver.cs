@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WaterSortSolverCore
@@ -101,7 +100,7 @@ namespace WaterSortSolverCore
 			if (sourceVial.Count == 1 && destVial.IsEmpty)
 				return false;
 
-			if (sourceVial.TopLiquid.Quantity > (4 - destVial.TotalQuantity))
+			if (destVial.TotalQuantity > 3)
 				return false;
 
 			if (!destVial.IsEmpty && sourceVial.TopLiquid.Color != destVial.TopLiquid.Color)
@@ -113,19 +112,24 @@ namespace WaterSortSolverCore
 		private static Board PerformMove(int sourceVialIndex, int destVialIndex, Board board)
 		{
 			Board newBoard = new(board);
+			Vial sourceVial = newBoard[sourceVialIndex];
+			Vial destVial = newBoard[destVialIndex];
 
-			//Add liquid to destination
-			if (board[destVialIndex].IsEmpty)
+			if (destVial.IsEmpty)
 			{
-				newBoard[destVialIndex].Add(board[sourceVialIndex].TopLiquid);
+				destVial.Add(sourceVial.TopLiquid);
+				sourceVial.RemoveTopLiquid();
 			}
 			else
 			{
-				newBoard[destVialIndex].TopLiquid.Quantity += board[sourceVialIndex].TopLiquid.Quantity;
-			}
+				byte transferredQuantity = (byte)Math.Min(sourceVial.TopLiquid.Quantity, 4 - destVial.TotalQuantity);
 
-			//Remove liquid from source
-			newBoard[sourceVialIndex].RemoveAt(board[sourceVialIndex].Count - 1);
+				destVial.TopLiquid.Quantity += transferredQuantity;
+				sourceVial.TopLiquid.Quantity -= transferredQuantity;
+
+				if (sourceVial.TopLiquid.Quantity == 0)
+					sourceVial.RemoveTopLiquid();
+			}
 
 			return newBoard;
 		}
