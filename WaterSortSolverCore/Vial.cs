@@ -36,10 +36,5 @@ namespace WaterSortSolverCore
 				return this[Count - 1];
 			}
 		}
-
-		public void RemoveTopLiquid()
-		{
-			RemoveAt(Count - 1);
-		}
 	}
 }
