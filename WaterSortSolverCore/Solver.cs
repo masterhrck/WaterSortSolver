@@ -66,22 +66,22 @@ namespace WaterSortSolverCore
 					if (sourceVialIndex == destVialIndex)
 						continue;
 
-					if (IsMoveValid(sourceVialIndex, destVialIndex, state.Board))
-					{
-						Board newBoard = PerformMove(sourceVialIndex, destVialIndex, state.Board);
-						string newGameLog = state.GameLog + (sourceVialIndex + 1) + " -> " + (destVialIndex + 1) + "\n";
-						GameState newState = new(newBoard, newGameLog, state.nMoves + 1);
+					if (!IsMoveValid(sourceVialIndex, destVialIndex, state.Board))
+						continue;
 
-						if (newState.Board.IsWin)
-						{
-							resultPacket.IsWin = true;
-							resultPacket.WinGameState = newState;
-							return resultPacket;
-						}
-						else
-						{
-							resultPacket.NewGameStates.Add(newState);
-						}
+					Board newBoard = PerformMove(sourceVialIndex, destVialIndex, state.Board);
+					string newGameLog = state.GameLog + (sourceVialIndex + 1) + " -> " + (destVialIndex + 1) + "\n";
+					GameState newState = new(newBoard, newGameLog, state.nMoves + 1);
+
+					if (newState.Board.IsWin)
+					{
+						resultPacket.IsWin = true;
+						resultPacket.WinGameState = newState;
+						return resultPacket;
+					}
+					else
+					{
+						resultPacket.NewGameStates.Add(newState);
 					}
 				}
 			}
@@ -126,6 +126,7 @@ namespace WaterSortSolverCore
 			}
 			else
 			{
+				//Treba rijesit problem loopa - da ova funkcija vraca listu boardova i odigra sve moguce duple poteze (rekurzija u for-u)
 				byte transferredQuantity = (byte)Math.Min(sourceVial.TopLiquid.Quantity, 4 - destVial.TotalQuantity);
 
 				destVial.TopLiquid.Quantity += transferredQuantity;

@@ -18,11 +18,12 @@ namespace WaterSortSolverCore
 		{
 			get
 			{
-				for (int i = 0; i < this.Count; i++)
+				foreach (Vial vial in this)
 				{
-					if (!this[i].IsEmpty && this[i].TopLiquid.Quantity != 4)
+					if (!vial.IsEmpty && vial.TopLiquid.Quantity != 4)
 						return false;
 				}
+
 				return true;
 			}
 		}

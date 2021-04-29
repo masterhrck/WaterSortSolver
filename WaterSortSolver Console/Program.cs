@@ -12,6 +12,7 @@ namespace WaterSortSolver_Console
 
 			Console.Write("Number of vials: ");
 			int nVials = int.Parse(Console.ReadLine());
+
 			List<string> colorList = new();
 
 			Console.WriteLine("Enter colors of liquids and quantity if != 1, top to bottom");
@@ -19,16 +20,18 @@ namespace WaterSortSolver_Console
 			for (int iVial = 0; iVial < nVials; iVial++)
 			{
 				Vial vial = new();
-
 				Console.WriteLine("Vial #" + (iVial + 1));
+
 				List<string> inputList = new();
+
 				while (true)
 				{
 					string input = Console.ReadLine();
+
 					if (string.IsNullOrWhiteSpace(input))
 						break;
-					else
-						inputList.Add(input);
+
+					inputList.Add(input);
 				}
 
 				for (int i = inputList.Count - 1; i >= 0; i--)

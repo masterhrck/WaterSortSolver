@@ -12,7 +12,7 @@ namespace WaterSortSolverCore
 
 		public Vial(Vial vial) : base()
 		{
-			foreach (var liquid in vial)
+			foreach (Liquid liquid in vial)
 			{
 				Add(new Liquid(liquid.Color, liquid.Quantity));
 			}
@@ -23,10 +23,12 @@ namespace WaterSortSolverCore
 			get
 			{
 				byte amount = 0;
-				for (int i = 0; i < this.Count; i++)
+
+				foreach (Liquid liquid in this)
 				{
-					amount += this[i].Quantity;
+					amount += liquid.Quantity;
 				}
+
 				return amount;
 			}
 		}
