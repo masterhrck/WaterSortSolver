@@ -14,18 +14,6 @@ namespace WaterSortSolverCore
 			return (Board)this.MemberwiseClone();
 		}
 
-		public bool IsWin
-		{
-			get
-			{
-				foreach (Vial vial in this)
-				{
-					if (!vial.IsEmpty && vial.TopLiquid.Quantity != 4)
-						return false;
-				}
-
-				return true;
-			}
-		}
+		public bool IsWin => this.TrueForAll(vial => vial.IsEmpty || vial.TopLiquid.Quantity == 4);
 	}
 }

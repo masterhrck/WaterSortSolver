@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WaterSortSolverCore
 {
@@ -18,28 +19,9 @@ namespace WaterSortSolverCore
 			}
 		}
 
-		public byte TotalQuantity
-		{
-			get
-			{
-				byte amount = 0;
+		public byte TotalQuantity => (byte)this.Select(liquid => (int)liquid.Quantity).Sum();
 
-				foreach (Liquid liquid in this)
-				{
-					amount += liquid.Quantity;
-				}
-
-				return amount;
-			}
-		}
-
-		public bool IsEmpty
-		{
-			get
-			{
-				return Count == 0;
-			}
-		}
+		public bool IsEmpty => this.Count == 0;
 
 		public Liquid TopLiquid
 		{
